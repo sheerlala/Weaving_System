@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>新建方案</title>
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+	<link rel="stylesheet" href="../css/jquery.cxcolor.css" />
+	<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/jquery.cxcolor.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<body style="background-color: whitesmoke">
+<div style="margin-top: 20px;" class="container-fluid">
+	<div class="col-md-3 col-xs-3"style="margin-top: 50px">
+		<img id="WB" style="width: 250px;height: 250px;border-radius: 5%;border: solid 1px #CECEFF;margin-top: 50px"/>
+		<button class="btn btn-success" style="width: 70px;vertical-align: bottom"onclick="preview()">预览</button>
+		<button class="btn btn-success" style="width: 120px;vertical-align: bottom"onclick="geturl()">获取下载链接</button>
+		<div id="downloadurl">
+		</div>
+	</div>
+	<div class="col-md-8 col-xs-8"style="border:solid 2px dimgrey;background-color: black;border-radius: 2%">
+		<div class="row"style="height: 50px"></div>
+		<div class="row"style="background-color:whitesmoke">
+	<form action="UserUpdateServlet" target="_self" method="post" enctype="multipart/form-data" class="form-horizontal" >
+		<input id="jname" name="jname"type="hidden"class="form-control"style="width: 20%" type="text"/><br>
+		<div class="col-md-12 form-group"style="margin-top: 20px">
+				<div class="control-label col-md-5"><label style="font-size: 1.2em">方案名称</label></div>
+				<div class="col-md-7"> <input id="sname" name="sname"class="form-control"style="width: 50%" type="text"/></div>
+			</div>
+<div class="col-md-6 col-xs-6">
+
+			<div class="form-group">
+				<div class="control-label col-md-5 "><label >经线</label></div>
+				<div class="col-md-5 "><input id="WarpColor" name="WarpColor"class="form-control"/></div>
+			</div>
+			<div class="form-group">
+				<div class="control-label col-md-5 col-lg-4" > <label>纬线1</label></div>
+				<div class="col-md-5 col-lg-8"><input id="WeftColor1"name="WeftColor1"class="form-control"/></div>
+			</div>
+			<div class="form-group">
+				<div class="control-label col-md-5"><label>纬线2</label></div>
+				<div class="col-md-5"><input id="WeftColor2"name="WeftColor2"class="form-control"/></div>
+			</div>
+			<div class="form-group">
+				<div class="control-label col-md-5"><label>纬线3</label></div>
+				<div class="col-md-5"><input id="WeftColor3"name="WeftColor3"class="form-control"/></div>
+			</div>
+			<div class="form-group ">
+				<div class="control-label col-md-5"> <label>纬线4</label></div>
+				<div class="col-md-5"><input id="WeftColor4"name="WeftColor4"class="form-control"/></div>
+			</div>
+</div>
+			<div class="col-md-6 col-xs-6">
+			<div class="form-group">
+				<div class="control-label col-md-4"><label for="MeiShu">枚&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数</label></div>
+				<div class="col-md-4"><input type="text" name="MeiShu" id="MeiShu" class="form-control"style="border-color:#888"/></div>
+				<p>(建议取值:16)</p>
+			</div>
+			<div class="form-group">
+				<div class="control-label col-md-4"><label for="FeiShu">飞&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数</label></div>
+				<div class="col-md-4"><input type="text" name="FeiShu" id="FeiShu" class="form-control"style="border-color:#888"/></div>
+				<p>(建议取值:5)</p>
+			</div>
+			<div class="form-group ">
+				<div class="control-label col-md-4"><label for="WidthResolution">宽度分辨率</label></div>
+				<div class="col-md-4"><input type="text" name="WidthResolution" id="WidthResolution" class="form-control"style="border-color:#888"/></div>
+				<p>(建议取值:6000)</p>
+			</div>
+			<div class="form-group ">
+				<div class="control-label col-md-4"><label for="WarpMiDu">经&nbsp;线&nbsp;密&nbsp;度</label></div>
+				<div class="col-md-4"><input type="text" name="WarpMiDu" id="WarpMiDu" class="form-control"style="border-color:#888"/></div>
+				<p>(建议取值:118)</p>
+			</div>
+			<div class="form-group">
+				<div class="control-label col-md-4"><label for="WeftMiDu">纬&nbsp;线&nbsp;密&nbsp;度</label></div>
+				<div class="col-md-4"><input type="text" name="WeftMiDu" id="WeftMiDu" class="form-control"style="border-color:#888"/></div>
+				<p>(建议取值:23)</p>
+			</div>
+			<div class="form-group">
+				<div class="control-label col-md-4"><label for="Squeeze">挤&nbsp;压&nbsp;程&nbsp;度</label></div>
+				<div class="col-md-4"><input type="text" name="Squeeze" id="Squeeze" class="form-control"style="border-color:#888"/></div>
+				<p>(建议取值:1)</p>
+			</div>
+			<div class="col-md-12"style="text-align: right">
+				<input type="submit" class="btn btn-success" style="width: 80px;margin-right: 20px;" value="提交" >
+			</div>
+			</div>
+	</form>
+			<img id="histo"style="width: 100%;height: 150px;border-radius: 3%">
+		</div></div>
+
+</div>
+<script type="text/javascript">
+	function geturl(){
+		$.ajax({
+			type:"get",
+			url:"../userinfo/account",
+			datatype:"json",
+			success:function(data){
+				if(data.account_type=="common") {
+					var flag = confirm("确认花费5元下载该纹版图吗？");
+					if(flag){
+						console.log(data.balance);
+						if(5>eval(data.balance)){
+							alert("余额不足，请先充值！");
+						}else {
+							console.log("普通用户下载");
+							/*var url = "<%=request.getContextPath()%>/scheme/load_WenBan?jname=" + '<%= jname%>'+"&sname="+ '<%=sname%>';
+							 $("#pluginurl").attr("href",url);*/
+							$("#downloadurl").load("../downloadurl.jsp",{jname:'<%= jname%>',sname:'<%=sname%>'});
+						}
+					}
+				}
+				else {
+					console.log("VIP用户下载");
+					$("#downloadurl").load("../downloadurl.jsp",{jname:'<%= jname%>',sname:'<%=sname%>'});
+				}
+			}
+		})
+	}
+
+	//	document.getElementById("xiazai").href="<%=basePath %>scheme/show_WenBan?sname="+ '<%=sname%>';
+	$(document).ready(function() {
+
+		$.ajax({
+			type: "get",
+			url: "/scheme/read_XML?jname="+'<%=jname%>'+"&sname="+'<%=sname%>',
+			success: function(data) {
+				document.getElementById("WarpColor").value=data.WarpColor;
+				document.getElementById("WeftColor1").value=data.WeftColor1;
+				document.getElementById("WeftColor2").value=data.WeftColor2;
+				document.getElementById("WeftColor3").value=data.WeftColor3;
+				document.getElementById("WeftColor4").value=data.WeftColor4;
+				document.getElementById("MeiShu").value=data.MeiShu;
+				document.getElementById("FeiShu").value=data.FeiShu;
+				document.getElementById("WidthResolution").value=data.WidthResolution;
+				document.getElementById("WarpMiDu").value=data.WarpMiDu;
+				document.getElementById("WeftMiDu").value=data.WeftMiDu;
+				document.getElementById("Squeeze").value=data.Squeeze;
+				document.getElementById("jname").value=data.jname;
+				document.getElementById("sname").value=data.sname;
+			}
+		});
+		$('#WarpColor').cxColor({
+			color:'#ffffff'
+		});
+		$('#WeftColor1').cxColor({
+			color:'#ff0000'
+		});
+		$('#WeftColor2').cxColor({
+			color:'#00ff00'
+		});
+		$('#WeftColor3').cxColor({
+			color:'#0000ff'
+		});
+		$('#WeftColor4').cxColor({
+			color:'#000000'
+		});
+	//	document.getElementById("WB").src="<%=basePath %>scheme/show_WenBan?sname="+ '<%=sname%>';
+		//document.getElementById("WB").src="<%=request.getContextPath()%>scheme/show_WenBan?sname="+ '<%=sname%>';
+		$.ajax({
+			type: "get",
+			url: "/scheme/test?sname="+ '<%=sname%>',
+			success: function(data) {
+				document.getElementById("WB").src=data.url;
+				var imgurl=data.url;
+				window.imgurl=imgurl;
+			}
+		});
+	});
+
+
+	function savescheme(){
+		var flag = confirm("确认要保存该方案？");
+		if (flag) {
+			$("#newp").load("../static/schemes.html");
+		}}
+	function preview(){
+		window.location.href='../preview.jsp?url='+imgurl;
+	}
+</script>
+<style>
+	.col-md-*{
+		padding-left: 0px;
+	}
+	label{
+		text-align: center;
+	}
+</style>
+</body>

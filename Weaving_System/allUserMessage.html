@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>所有用户信息</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style type="text/css">
+		.model {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: #000;
+			z-index: 10;
+			opacity: 0.6;
+			filter: alpha(opacity: 60);
+		}
+
+		div label {
+			margin-top: 8px;
+		}
+	</style>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+	<script src="js/jquery-1.11.3.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/cr_page.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div class="container" style="border: 1px solid #111;margin-top:8% ;padding: 2%;">
+	<h1 style="text-align: center;">所有用户信息</h1>
+	<div class="row">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<td>用户ID</td>
+					<td>用户名</td>
+					<td>邮箱</td>
+					<td>车类型</td>
+					<td>车牌号</td>
+					<td>姓名</td>
+					<td>电话</td>
+					<td>车牌颜色</td>
+					<td>相关操作</td>
+				</tr>
+			</thead>
+			<tbody id="userMsg"></tbody>
+		</table>
+		<div class="container" style="width:187px;">
+			<div class="btn-group" id="pageBtn">
+				<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-backward"></span></button>
+				<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-fast-backward"></span></button>
+				<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-fast-forward"></span></button>
+				<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-forward"></span></button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--修改信息-->
+<div class="container-fluid" style="display: none;" id="alterPasswsord">
+	<div style="background: #fff;position: absolute;top: 35%;left: 45%;z-index: 11;width: 450px;">
+		<button onclick="fadeIn()" type="button" class="close" style="margin-top: -5px;"><span>&times;</span></button>
+		<br />
+		<div id="error"><p style="display:none;text-align: center;font-size: 20px;color:red;"></p></div>
+		<form class="form" action="/SecurityTest/admin/user/update" post="get" onsubmit="return submitMsg();">
+			<div class="row">
+				<div class="col-xs-2 col-xs-push-1">
+					<label for="email">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱:</label>
+				</div>
+				<div class="col-xs-8 col-xs-push-1">
+					<input type="text" name="email" id="email" class="form-control"  style="border-color:#888"/>
+				</div>
+			</div><br />
+			<div class="row">
+				<div class="col-xs-2 col-xs-push-1">
+					<label for="carType">车&nbsp;&nbsp;类&nbsp;&nbsp;型:</label>
+				</div>
+				<div class="col-xs-8 col-xs-push-1">
+					<input type="text" name="carType" id="carType" class="form-control" style="border-color:#888"/>
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<div class="col-xs-2 col-xs-push-1">
+					<label for="plate">车&nbsp;&nbsp;牌&nbsp;&nbsp;号:</label>
+				</div>
+				<div class="col-xs-8 col-xs-push-1">
+					<input type="text" name="plate" id="plate" class="form-control" style="border-color:#888"/>
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<div class="col-xs-2 col-xs-push-1">
+					<label for="name">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:</label>
+				</div>
+				<div class="col-xs-8 col-xs-push-1">
+					<input type="text" name="name" id="name" class="form-control" style="border-color:#888"/>
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<div class="col-xs-2 col-xs-push-1">
+					<label for="phoneNumber">手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机:</label>
+				</div>
+				<div class="col-xs-8 col-xs-push-1">
+					<input type="text" name="phoneNumber" id="phoneNumber" class="form-control" style="border-color:#888"/>
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<div class="col-xs-2 col-xs-push-1">
+					<label for="plateColour">车牌颜色:</label>
+				</div>
+				<div class="col-xs-8 col-xs-push-1">
+					<input type="text" name="plateColour" id="plateColour" class="form-control" style="border-color:#888"/>
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<div class="col-xs-2 col-xs-push-7">
+					<input type="submit" class="btn btn-success" style="width: 80px;" value="提交">
+				</div>
+			</div>
+			<br />
+		</form>
+	</div>
+	<div class="model" onclick="fadeIn()" id="model"></div>
+</div>
+
+<script type="text/javascript">
+	var page = 1;
+	var nextPage = "";
+	var prePage = "";
+	var lastPage = "";
+	var btnDoms = $("#pageBtn").children();
+	$(function(){
+		//直接获取所有用户
+		$.ajax({
+			type:"get",
+			url:"/SecurityTest/admin/user/all",
+			success:function(data){
+				var jsonArr = data.AllUsers;
+				var html = "";
+				for(var i=0,len=jsonArr.length;i<len;i++){
+					var data = jsonArr[i];
+					html += "<tr>"+
+								"	<td>"+data.id+"</td>"+
+								"	<td>"+data.username+"</td>"+
+								"	<td>"+data.email+"</td>"+
+								"	<td>"+data.cartype+"</td>"+
+								"	<td>"+data.plate+"</td>"+
+								"	<td>"+data.name+"</td>"+
+								"	<td>"+data.phonenumber+"</td>"+
+								"	<td>"+data.plate_color+"</td>"+
+								"	<td><a href='javascript:void(0);' onclick='alterMsg(this);'>编辑</a>/<a href='javascript:void(0);' onclick='deleteUser(this)';>删除</a></td>"+
+							"</tr>,";
+				}
+				cr_page($("#userMsg"),$("#pageBtn"),html,",");
+				$("#userMsg").html(firstTen);
+			}
+		});
+	});
+	
+	//修改密码
+	//点击消失黑屏
+	function fadeIn() {
+		$("#alterPasswsord").fadeOut();
+	};
+	function error(msg){
+		$("#error p").html(msg).slideDown().delay(1000).slideUp();
+	}
+	var userId = "";
+	var username = "";
+	function alterMsg(dom){
+		//拿到当前被编辑的用户的所有信息
+		userId = tdDom[0].innerHTML;
+		username = tdDom[1].innerHTML;
+		var tdDom = $(dom).parent().parent().children();
+		var email = tdDom[2].innerHTML;
+		var carType = tdDom[3].innerHTML;
+		var plate = tdDom[4].innerHTML;
+		var name = tdDom[5].innerHTML;
+		var phoneNumber = tdDom[6].innerHTML;
+		var plateColour = tdDom[7].innerHTML;
+		
+//		if(carType == "普通用户"){
+//			$("#carType option").eq(2).attr("selected","selected").siblings().removeAttr("selected");
+//		}else if(carType == "管理员"){
+//			$("#carType option").eq(1).attr("selected","selected").siblings().removeAttr("selected");
+//		};
+		$("#email").val(email);
+		$("#carType").val(carType);
+		$("#plate").val(plate);
+		$("#name").val(name);
+		$("#phoneNumber").val(phoneNumber);
+		$("#plateColour").val(plateColourme);
+
+		$("#alterPasswsord").fadeIn();
+	};
+	//提交数据
+	/*var email = tdDom[0].innerHTML;
+	var carType = tdDom[1].innerHTML;
+	var plate = tdDom[2].innerHTML;
+	var name = tdDom[3].innerHTML;
+	var phoneNumber = tdDom[4].innerHTML;
+	var plateColour = tdDom[5].innerHTML;*/
+	function submitMsg(){
+		var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		var email = $("#email").val();
+		var carType = $("#carType").val();
+		var plate = $("#plate").val();
+		var name = $("#name").val();
+		var phoneNumber = $("#phoneNumber").val();
+		var plateColour = $("#plateColourmail").val();
+		
+		if(email == null || email == ""){
+			error("邮箱不能为空！");
+			$("#email").focus();
+			return false;
+		}else if (!filter.test(email)) {
+			error("邮箱格式不正确...");
+			$("#email").focus();
+			return false;
+		};
+		if(carType == null || carType == ""){
+			error("车类型不能为空！");
+			$("#carType").focus();
+			return false;
+		};
+		if(plate == null || plate == ""){
+			error("车牌号不能为空！");
+			$("#plate").focus();
+			return false;
+		};
+		if(name == null || name == ""){
+			error("姓名不能为空！");
+			$("#name").focus();
+			return false;
+		};
+		if(phoneNumber == null || phoneNumber == ""){
+			error("手机号不能为空！");
+			$("#phoneNumber").focus();
+			return false;
+		};
+		if(plateColour == null || plateColour == ""){
+			error("车牌颜色不能为空！");
+			$("#plateColour").focus();
+			return false;
+		};
+		return true;
+		/*//提交数据
+		$.ajax({
+			type:"POST",
+			url:"/SecurityTest/admin/user/update",
+			data:{"id"},
+			success:function(data){
+				console.log(data.msg == "success");
+				alert("提交成功");
+				fadeIn();
+				currentPage();
+			}
+		});*/
+	};
+
+	//删除用户
+	function deleteUser(dom){
+		var flag = confirm("确认要删除么？");
+		if(flag){
+			var tdDom = $(dom).parent().parent().children();
+			var userId = tdDom[0].innerHTML;
+			$.ajax({
+				type:"POST",
+				url:"deleteUser.do?id="+userId,
+				success:function(data){
+					if(data.msg == "success"){
+						//删除成功之后返回到首页；
+						currentPage();
+					}else if(data.msg == "error"){
+						alert("删除用户失败！");
+					};
+				}
+			});
+		}
+	};
+</script>
+</body>
+</html>

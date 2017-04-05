@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>方案界面</title>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/lrtk.css" />
+    <link rel="stylesheet" href="../css/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="../css/kendo.material.min.css" />
+    <script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/cr_page.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/cr.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/jquery.min1.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/jquery.imgbox.pack.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/kendo.all.min.js"></script>
+</head>
+<body>
+<div ><h2 id="jname"style="text-align: center"></h2></div>
+<div>
+        <div style="text-align: center">
+            <h4>原图</h4>
+            <img id="origin"style="width: 200px;height: 200px"/>
+        <button class="btn btn-success" onclick=""style="vertical-align: bottom">预览</button>
+        </div>
+    <div class="container"style="margin-top: 30px">
+        <div class="col-md-3"style="text-align: center">
+            <h4>直方图</h4>
+            <div id="histo">
+            <img id="histoimg"style="width: 150px;height: 150px;border: solid 1px;"/></div>
+        </div>
+        <div class="col-md-9">
+        <table   class="table table-striped" style="border: 0px;" rules="rows">
+            <thead>
+            <tr>
+                <td>方案名称</td>
+                <td >设置参数</td>
+                <td>纹板图</td>
+                <td>相关操作</td>
+            </tr>
+            </thead>
+            <tbody id="smsg" ></tbody>
+        </table>
+        <div class="container" style="width:187px;">
+            <div class="btn-group" id="pageBtn">
+                <button type="button" class="btn btn-default"><span style="background: url(../images/button.png) no-repeat -52px -8px;display:inline-block;width:14px;height:14px;float:left;"></span></button>
+                <button type="button" class="btn btn-default"><span style="background: url(../images/button.png) no-repeat -52px -8px;display:inline-block;width:14px;height:14px;float:left;"></span></button>
+                <button type="button" class="btn btn-default"><span style="background: url(../images/button.png) no-repeat -52px -8px;display:inline-block;width:14px;height:14px;float:left;"></span></button>
+                <button type="button" class="btn btn-default"><span style="background: url(../images/button.png) no-repeat -52px -8px;display:inline-block;width:14px;height:14px;;float:left;"></span></button>
+            </div>
+        </div>
+            <button class="btn btn-success"onclick="addscheme()">新建方案</button>
+        </div>
+    </div>
+
+</div>
+<style>
+
+</style>
+<script>
+    $(function() {
+        document.getElementById("jname").innerHTML=jname;
+        getAproject(jname);
+        getschemes(jname);
+    });
+    //获取项目信息
+    function getAproject(jname){
+        $.ajax({
+            type: "get",
+            url: "/SecurityTest/admin/user/all?jname="+jname,
+            success: function (data) {
+                var jsonArr = data;
+                var imageurl = jsonArr.originphoto;
+                var histourl = jsonArr.histo;
+                document.getElementById("origin").src = imageurl;
+                if ( histourl)
+                    document.getElementById("histoimg").src = histourl;
+                else
+                    document.getElementById("histo").innerHTML="尚未生成直方图！";
+            }
+        })
+    }
+    function gethisto(){
+        $.ajax({
+            type: "get",
+            dataType: 'json',
+            url: "deleteJob.do?jname=" + jname,
+            success: function (data) {
+                if (data.msg == "success") {
+                    document.getElementById("histoimg").src =data;
+                } else if (data.msg == "error") {
+                    alert("生成直方图失败！");
+                }
+            }
+        });
+    }
+    //获取方案信息
+    function getschemes(jname){
+        $.ajax({
+            type: "get",
+            url: "/SecurityTest/admin/user/all?jname="+jname,
+            success: function(data) {
+                var jsonArr = data.AllUsers;
+                var html = "";
+                for (var i = jsonArr.length - 1; i > 0; i--) {
+                    var data = jsonArr[i];
+                    html += "<tr>" +
+                            "	<td>" + data.sname + "</td>" +
+                            "	<td >" + data.config_address+"</td>" +
+                            "	<td>" + data.WenBan + "</td>" +
+                            "	<td ><a href='javascript:void(0);' onclick='deleteUser(this)';>删除</a></td>" +
+                            "</tr>,";
+                }
+                cr_page($("#smsg"), $("#pageBtn"), html, ",");
+                $("#smsg").html(firstTen);
+            }
+        });
+    }
+    //删除方案
+    function deleteUser(dom) {
+        var flag = confirm("确认要删除么？");
+        if (flag) {
+            var tdDom = $(dom).parent().parent().children();
+            var sname = tdDom[0].innerHTML;
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                url: "deleteUser.do?username=" + username,
+                success: function (data) {
+                    if (data.msg == "success") {
+                        //删除成功之后返回到方案列表；
+                        getschemes();
+                    } else if (data.msg == "error") {
+                        alert("删除方案失败！");
+                    }
+                }
+            });
+        }
+    }
+    function addscheme(){
+        var jobname=jname;
+        $("#newp").load("../static/addscheme.html", {jname: jobname});
+    }
+
+</script>
+</body>
+</html>

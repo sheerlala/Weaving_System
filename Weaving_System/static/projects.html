@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>项目管理界面</title>
+    <style type="text/css">
+        .model {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 10;
+            opacity: 0.6;
+            filter: alpha(opacity: 60);
+        }
+
+        div label {
+            margin-top: 8px;
+        }
+        .file {
+            position: relative;
+            display: inline-block;
+            background: #02578A;
+            border: 1px solid #99D3F5;
+            border-radius: 4px;
+            padding: 4px 12px;
+            overflow: hidden;
+            color: #fff;
+            text-decoration: none;
+            text-indent: 0;
+            line-height: 20px;
+        }
+
+        .file input {
+            position: absolute;
+            font-size: 100px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+        }
+
+        .file:hover {
+            background: #143990;
+            border-color: #78C3F3;
+            color: #fff;
+            text-decoration: none;
+        }
+       td{
+           background-color: whitesmoke;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="../css/kendo.material.min.css" />
+    <script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/cr_page.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/cr.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/kendo.all.min.js"></script>
+</head>
+
+<body>
+<div class="container" id="newp" style="margin-top:8% ;padding: 2%;width:80%">
+    <h1 style="text-align: center;">我的项目</h1>
+    <div class="row">
+        <table class="table table-striped table-bordered" style="border-color: gray;">
+            <thead>
+            <tr style='border-color: #000;'>
+                <td style='border-color:gray;width: 70%'>项目名称</td>
+                <td style='border-color: gray;width: 30%'>相关操作</td>
+            </tr>
+            </thead>
+            <tbody id="pmsg" style='border-color: #000;'></tbody>
+        </table>
+        <div class="container" style="width:187px;">
+            <div class="btn-group" id="pageBtn">
+                <button type="button" class="btn btn-default"><span  style="display:inline-block;width:14px;height:14px;float:left;background: url(../images/button.png) no-repeat -52px -8px;"></span></button>
+                <button type="button" class="btn btn-default"><span style="display:inline-block;width:14px;height:14px;float:left;background: url(../images/button.png) no-repeat -52px -8px;"></span></button>
+                <button type="button" class="btn btn-default"><span style="display:inline-block;width:14px;height:14px;float:left;background: url(../images/button.png) no-repeat -52px -8px;"></span></button>
+                <button type="button" class="btn btn-default"><span style="display:inline-block;width:14px;height:14px;;float:left;background: url(../images/button.png) no-repeat -52px -8px;"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var page = 1;
+    var nextPage = "";
+    var prePage = "";
+    var lastPage = "";
+    var btnDoms = $("#pageBtn").children();
+    $(function() {
+        console.log("进入函数");
+        getjob();
+    });
+        function checkMsg(dom) {
+            var tdDom = $(dom).parent().parent().children();
+            var jname = tdDom[0].innerHTML;
+            $("#newp").load("../static/schemes.html", {jname: jname});
+        }
+
+        /**function alterMsg(dom) {
+            //拿到当前被编辑的项目的所有信息
+            var tdDom = $(dom).parent().parent().children();
+            var jobId = tdDom[0].innerHTML;
+            var userid = tdDom[1].innerHTML;
+            var jname = tdDom[2].innerHTML;
+            var filename = tdDom[3].innerHTML;
+            var originphoto = tdDom[4].innerHTML;
+            var histo = tdDom[5].innerHTML;
+
+            if (roleid == "管理员") {
+                $("#roleid option").eq(1).attr("selected", "selected").siblings().removeAttr("selected");
+            }
+            ;
+            if (roleid == "车主") {
+                $("#roleid option").eq(2).attr("selected", "selected").siblings().removeAttr("selected");
+            }
+            ;
+            if (roleid == "坐席") {
+                $("#roleid option").eq(3).attr("selected", "selected").siblings().removeAttr("selected");
+
+            }
+            ;
+            if (roleid == "保安") {
+                $("#roleid option").eq(4).attr("selected", "selected").siblings().removeAttr("selected");
+            }
+            $("#userid").val(userId);
+            $("#username").val(username);
+            $("#adress").val(adress);
+            $("#plate").val(plate);
+            $("#name").val(name);
+            $("#phoneNumber").val(phoneNumber);
+            $("#code").val(code);
+            $("#codeImg").attr("src", "/SecurityTest/images/uploadFile/" + codeurl);
+            $("#carImg").attr("src", "/SecurityTest/images/uploadFile/" + carurl);
+            $("#alterPasswsord").fadeIn();
+        };**/
+        //删除用户
+        function deleteUser(dom) {
+            var flag = confirm("确认要删除么？");
+            if (flag) {
+                var tdDom = $(dom).parent().parent().children();
+                var jname = tdDom[0].innerHTML;
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: "deleteJob.do?jname=" + jname,
+                    success: function (data) {
+                        if (data.msg == "success") {
+                            //删除成功之后返回新的项目列表；
+                            getjob();
+                        } else if (data.msg == "error") {
+                            alert("删除项目失败！");
+                        }
+                    }
+                });
+            }
+        }
+
+        //获取所有项目信息
+        function getjob() {
+            console.log("进入获取")
+            $.ajax({
+                type: "get",
+                url: "/SecurityTest/admin/user/all",
+                success: function (data) {
+                    var jsonArr = data.Alljobs;
+                    var html = "";
+                    console.log(jsonArr.jname[1]);
+                    for (var i = jsonArr.length - 1; i > 0; i--) {
+                        var data = jsonArr[i];
+                        html += "<tr>" +
+                                "	<td style='border-color: #000;'>" + data.jname + "</td>" +
+                                "	<td style='border-color: #000;'><a href='javascript:void(0);' onclick='checkMsg(this);'>查看详情</a>/<a href='javascript:void(0);'onclick='deleteUser(this)';>删除</a></td>" +
+                                "</tr>,";
+                    }
+                    cr_page($("#pmsg"), $("#pageBtn"), html, ",");
+                    $("#pmsg").html(firstTen);
+                }
+            });
+        }
+
+</script>
+</body>
+
+</html>
