@@ -47,15 +47,15 @@
    </div>
    <div class="container"style="margin-top:100px;padding:0">
    <div class="col-md-10 col-md-offset-1">
-   <div class="row"><img src="images/timgd.jpg" style="width:100%;height:400px;margin-top:-12px;"/></div>
-   <div class="col-md-3"style="margin-top: 50px;">
-   <h4>设计师基本信息</h4>
-    <p style="font-size: 1.4em;text-align:center;"id="designername"></p>
-	 <p style="font-size: 1.4em;text-align:center;"id="address"></p>
-	  <p style="font-size: 1.4em;text-align:center;"id="email"></p>
+   <div class="row">
+     <div class="col-md-3"style="padding:0"><img src="images/zj18.jpg" style="width:100%;height:350px;"/></div>
+     <div class="col-md-3"style="padding:0"><img src="images/zj12.jpg" style="width:100%;height:350px;"/></div>
+	 <div class="col-md-3"style="padding:0"><img src="images/zj5.jpg" style="width:100%;height:350px;"/></div>
+	  <div class="col-md-3"style="padding:0"><img src="images/zj13.jpg" style="width:100%;height:350px;"/></div>
+	</div>
+   <div class="col-md-12"style="margin-top: 10px;text-align:center">
+   <p style="font-size: 1.4em;text-align:center;">欢迎您！<span id="designername"></span></p>
    </div>
-   <div class="col-md-9"style="margin-top: 50px;" >
-    </div>
    </div>
    </div>
    <style>
