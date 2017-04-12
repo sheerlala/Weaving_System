@@ -53,7 +53,7 @@
 </head>
 
 <body>
-<div style="background-color:darkred;height: 80px;width: 100%;margin-top:10px"></div>
+<div style="background-color:black;height: 80px;width: 100%;margin-top:10px"></div>
 <div class="container" style="padding-top:5%;background-color: whitesmoke;width: 80%;margin-top: 10px">
     <p id="error" style="text-align: center;font-size: 20px;color:red;margin-left: -10%;display: none;"></p>
     <form action="../adduserD" target="_self" method="POST" modelAttribute="user"  class="form" onsubmit="return saveUser();">
@@ -190,7 +190,6 @@
         var password = $("#password").val();
         var name = $("#name").val();
         var phonenumber = $("#phonenumber").val();
-        var sex = $("#sex").val();
         var Email = $("#Email").val();
         var company = $("#company").val();
         var years= $("#years").val();
@@ -221,6 +220,11 @@
             $("#Email").focus();
             return false;
         }
+		if (place == "") {
+            error("工作地点不能为空...");
+            $("#place").focus();
+            return false;
+        };
         return true;
     }
     $(function() {

@@ -2,82 +2,84 @@
 		 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<title>登录页面</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<style type="text/css">
-		.mycode{
-			display: inline-block;
-			width: 80px;
-			height: 40px;
-			vertical-align: middle;
-			background:#eee;
-		}
-		.form-control{margin-top: 20px;}
-		.background1 input{background:#555;color:#fff;}
-		.background1 input:hover{background:#666;color:fff;}
-		#error{text-align: center;font-size: 20px;line-height: 20px;font-weight: 700;border: none;}
-	</style>
-	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
-	<script src="../js/jquery-3.2.0.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../js/yanzhengma.js" type="text/javascript" charset="utf-8"></script>
-</head>
-<body style="background-image:url(../images/fzbackground.jpg);background-size:cover;">
-<div class="container"style="margin-top: 6%">
-	<div class="col-md-4 col-md-offset-4">
-		<div class="row">
-			<h1 style="text-align:center;font-size:3em;font-weight:bold;color:white;letter-spacing: 0.23em">纺织设计云平台</h1>
-		</div>
-<!--div class="container" style="width: 400px;margin-top: 5%;"-->
-	<div class="row"style="margin-top: 5%;">
+<html style="height:100%">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+ <link rel="stylesheet" href="css/jquery.cxcolor.css" />
+    <script src="js/jquery-3.2.0.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+	 <script src="js/cr_page.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/cr.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/jquery.cxcolor.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/yanzhengma.js" type="text/javascript" charset="utf-8"></script>
+	<title>纺织设计云平台登录界面</title>
+<body style="height:100%">
+<div class="container-fluid"style="background: radial-gradient(white,gray,black);height:100%">
+ <div class="col-md-8 col-md-offset-2"style="height:200px;margin-top:15%">
+  <div class="col-md-3 col-xs-3"style="height:280px;text-align:right;padding-right:0;"><img src="images/jiangnan.jpg"style="box-shadow:3px 3px 10px #444"/></div>
+  <div class="col-md-4 col-xs-4"style="background-image:url(images/suozi.jpg);box-shadow:3px 3px 10px #444;height:280px;"></div>
+  <div class="col-md-5 col-xs-5"style="box-shadow:3px 3px 10px #444;background:radial-gradient(white,gray,#272727);height:280px">
+	<h1 style="text-align:center;color:white;letter-spacing: 0.1em;font-family:fangsong;font-weight:bold">纺织设计云平台</h1>
+	<div class="row">
 		<div id="error" class="form-control" style="display: none;"></div>
 	</div>
 	<div class="row">
 		<form id="_form" class="form" name="" action="<c:url value='/j_spring_security_check' />" method="post"  onsubmit="return saveUser(this);">
-			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 			<c:if test="${not empty error}">
-				<input type="hidden" id="errorMsg" value="${error}" />
+				<input type="hidden" id="errorMsg" value="${error}"/>
 			</c:if>
 			<div class="form-group">
-				<div class="col-md-3 visible-md visible-lg">
-					<label style="margin-top: 28px;color:black;font-size:1em" for="username">用户名:</label>
+				<div class="col-md-4 visible-md visible-lg"style="text-align:right">
+					<label style="margin-top: 8px;color:white;font-size:1em" for="username">用户名:</label>
 				</div>
-				<div class="col-md-9">
-					<input class="form-control" type="text" name="username" id="username" value="" placeholder="用户名"/>
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-md-3 visible-md visible-lg">
-					<label style="margin-top: 28px;color:black;font-size:1em" for="password">密&nbsp;&nbsp;&nbsp;码:</label>
-				</div>
-				<div class="col-md-9">
-					<input class="form-control" type="password" name="password" id="password" value="" placeholder="密码"/>
+				<div class="col-md-7">
+					<input class="form-control" type="text" name="username" id="username" value="" placeholder="用户名"style="border-radius:0"/>
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-md-3 visible-md visible-lg">
-					<label for="inputCode" style="margin-top: 28px;color:black;size:1em">验证码:</label>
+				<div class="col-md-4 visible-md visible-lg"style="margin-top:10px;text-align:right">
+					<label style="margin-top: 8px;color:white;" for="password">密&nbsp;&nbsp;&nbsp;码:</label>
 				</div>
-				<div class="col-md-6">
-					<input class="form-control" name="yanzhengma" id="inputCode" type="text" placeholder="验证码"/>
+				<div class="col-md-7"style="margin-top:10px">
+					<input class="form-control" type="password" name="password" id="password" value="" placeholder="密码"style="border-radius:0"/>
 				</div>
-				<div class="col-md-2">
-					<span style="margin-top: 17px;" id="code" class="mycode"></span>
+			</div>
+			<div class="form-group" style="position: relative;">
+				<div class="col-md-4 visible-md visible-lg"style="margin-top:10px;text-align:right">
+					<label for="inputCode" style="margin-top: 8px;size:1em;color:white;">验证码:</label>
+				</div>
+				<div class="col-md-4"style="margin-top:10px">
+					<input class="form-control" name="yanzhengma" id="inputCode" type="text" placeholder="验证码"style="border-radius:0"/>
+				</div>
+				<div class="col-md-4"style="margin-top:13px;height:30px">
+					<span id="code" class="mycode"></span>
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-md-12 background1">
-					<input class="form-control btn btn-block" type="submit" value="登录" />
+				<div class="col-md-4 col-md-offset-2 col-xs-4"style="margin-top:30px">
+				<a href="adduser.jsp" style="margin-top: 50px;font-size:1.2em">用户注册</a>
+				</div>
+				<div class="col-md-5 col-md-offset-1 col-xs-5"style="margin-top:10px">
+					<input class="form-control btn btn-block" type="submit" value="登录"style="background-color:#E0E0E0;border-radius:50%;width:55px;height:55px"/>
 				</div>
 			</div>
 		</form>
 	</div>
-	<a href="adduser.jsp" style="font-size: 1.5em;margin-top: 50px">用户注册</a>
 </div>
+</div>
+</div>
+<style type="text/css">
+		.mycode{
+			display: inline-block;
+			width: 70px;
+			height: 30px;
+			vertical-align: middle;
+			background:#eee;
+		}
+		#error{text-align: center;line-height: 20px;border-radius:0;width:200px;margin-left:100px;}
+	</style>
 <script type="text/javascript">
 	var flag = false;
 	function saveUser(Dom){
@@ -152,8 +154,6 @@
 		$("#error").html(msg);
 		$("#error").fadeIn("slow").delay(1000).fadeOut("slow");
 	}
-
 </script>
-</div>
 </body>
 </html>
